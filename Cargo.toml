@@ -1,0 +1,14 @@
+[package]
+name = "PulseNet"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+rand = "0.8"
+colored = "2.0"
+indicatif = "0.17"
+clap = { version = "4.0", features = ["derive"] }
+anyhow = "1.0"
+futures = "0.3"
+chrono = "0.4"
