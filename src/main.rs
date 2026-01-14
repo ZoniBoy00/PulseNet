@@ -20,7 +20,7 @@ use tokio::sync::Semaphore;
 use tokio::time::timeout;
 
 #[derive(Parser, Debug, Serialize, Deserialize, Clone)]
-#[command(author, version = "1.0.0", about = "⚡ PulseNet - Professional IP Discovery Tool")]
+#[command(author, version = "0.2.0", about = "⚡ PulseNet - Professional IP Discovery Tool")]
 struct Args {
     /// Total number of IPs to scan (for random mode)
     #[arg(short, long, default_value_t = 1000)]

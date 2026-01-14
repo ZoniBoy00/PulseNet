@@ -1,4 +1,4 @@
-# ⚡ PulseNet v1.0
+# ⚡ PulseNet v0.2
 
 PulseNet is an ultra-fast, professional-grade IP discovery tool designed for efficient mapping of large network ranges. It combines asynchronous performance, intelligent rate limiting, and precise analytics.
 
