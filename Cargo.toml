@@ -1,6 +1,6 @@
 [package]
 name = "PulseNet"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
 
 [dependencies]
@@ -12,3 +12,8 @@ clap = { version = "4.0", features = ["derive"] }
 anyhow = "1.0"
 futures = "0.3"
 chrono = "0.4"
+ipnet = "2.9"
+governor = "0.6"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+toml = "0.8"

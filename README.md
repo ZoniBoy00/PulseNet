@@ -1,93 +1,84 @@
-# ⚡ PulseNet - Ultra-Fast IP Discovery Tool
+# ⚡ PulseNet v1.0
 
-PulseNet is a state-of-the-art, asynchronous IP discovery application written in Rust. Engineered for speed and precision, it allows you to scan the network for active nodes with extreme efficiency.
+PulseNet is an ultra-fast, professional-grade IP discovery tool designed for efficient mapping of large network ranges. It combines asynchronous performance, intelligent rate limiting, and precise analytics.
 
-## ✨ Key Features
+## ✨ Features
 
-- **🚀 Performance**: Leverages Rust's `Tokio` runtime for non-blocking, asynchronous I/O.
-- **🎨 Modern UI**: Beautiful terminal presence with ASCII art, real-time metrics, and formatted output.
-- **📝 Clean Logging**: Saves results as a clean list of IP addresses in `pulse_results.log` for easy integration with other tools.
-- **⚙️ Configurable**: Fully customizable through command-line arguments (count, workers, timeout, ports).
-- **🛡️ Optimized**: Intelligent worker management to maintain high speed without saturating your network.
+*   **Ultra-Performance:** Built on Rust's `tokio` and `futures` libraries for maximum concurrency.
+*   **Smart Filtering:** Automatically skips private (RFC1918), loopback, link-local, and reserved network ranges.
+*   **Flexible IP Sources:**
+    *   **Random:** Discover active hosts across random public IPs.
+    *   **CIDR:** Target specific network ranges (e.g., `1.2.3.0/24`).
+    *   **File:** Load a custom list of IPs from a text file.
+*   **Adaptive Control:** Built-in rate limiting (CPS) and adjustable worker counts prevent network saturation.
+*   **Analytics:** Real-time tracking of average latency, timeouts, and connection errors.
+*   **Configurability:** TOML-based configuration file and comprehensive CLI arguments.
+*   **Modern Output:** CSV or JSON logging for easy post-processing (ELK, jq, Python).
 
-## 🚀 Getting Started
+## 🚀 Quick Start
 
-### 1. Prerequisites
-Make sure you have [Rust](https://rustup.rs/) installed on your system. You can verify it by running:
+### 1. Build the project
+Ensure you have [Rust](https://rustup.rs/) installed.
 ```bash
-rustc --version
-```
-
-### 2. Installation
-Clone the repository or download the source code, then navigate to the project folder:
-```bash
-cd PulseNet
-```
-
-### 3. Running with Cargo (Recommended)
-The easiest way to run PulseNet is using `cargo run`. This automatically compiles and executes the tool.
-
-**For maximum speed (optimised build):**
-```bash
-cargo run --release -- [arguments]
-```
-*Note: Use `--` to separate cargo arguments from PulseNet arguments.*
-
-### 4. Compiling and Executing Binary
-If you want to compile the standalone executable:
-```bash
-# Compile
 cargo build --release
-
-# Run on Windows
-target\release\PulseNet.exe [arguments]
-
-# Run on Linux/macOS
-./target/release/PulseNet [arguments]
 ```
 
-## 🛠️ Command-Line Arguments
+### 2. Run the tool
 
-PulseNet is highly flexible via CLI flags:
+#### **Windows (PowerShell or CMD)**
+On Windows, use backslashes or execute the `.exe` directly:
+```powershell
+# PowerShell
+.\target\release\PulseNet.exe --count 5000
 
-| Short | Long | Description | Default |
-|-------|------|-------------|---------|
-| `-c` | `--count` | Number of random IPs to check | 1000 |
-| `-w` | `--workers` | Concurrent scan threads | 64 |
-| `-p` | `--ports` | Ports to scan (comma separated) | 80,443,22,8080 |
-| `-t` | `--timeout` | Connection timeout in ms | 800 |
-| `-o` | `--output` | Where to save found IPs | pulse_results.log |
-| `-g` | `--generate-only` | Generate IPs without scanning | false |
+# Command Prompt (CMD)
+target\release\PulseNet.exe --count 5000
+```
 
-### Usage Examples
-
-**Quick Scan (1000 IPs):**
+#### **Linux / macOS (UNIX)**
+On UNIX systems, use forward slashes:
 ```bash
-cargo run --release
+./target/release/PulseNet --count 5000
 ```
 
-**Custom Scan (5000 IPs, Port 80 & 443):**
+#### **Using Cargo (Cross-platform)**
+Alternatively, run directly with cargo:
 ```bash
-cargo run --release -- -c 5000 -p "80,443"
+cargo run --release -- --count 5000
 ```
 
-**Aggressive Scan (10000 IPs, 128 threads):**
-```bash
-cargo run --release -- -c 10000 -w 128 -t 500
+## 🛠️ CLI Arguments
+
+| Argument | Description | Default |
+| :--- | :--- | :--- |
+| `-c, --count` | Number of IPs to scan (random mode) | 1000 |
+| `-w, --workers` | Maximum concurrent connections | 64 |
+| `-r, --rate` | Maximum connections per second (CPS) | 500 |
+| `-t, --timeout` | Timeout per IP (ms) | 1500 |
+| `-p, --ports` | Ports to check (comma separated) | 80,443,22,8080 |
+| `--cidr` | CIDR ranges to scan | - |
+| `--json` | Output results in JSON format | False |
+| `--simulate` | Dry run without network activity | False |
+| `--quiet` | Minimal UI (ideal for automation/scripts) | False |
+
+## 📁 Configuration (pulsenet.toml)
+
+You can save your persistent settings in a `pulsenet.toml` file:
+
+```toml
+count = 10000
+workers = 128
+rate = 1000
+ports = "80,443,8080,3306"
+output = "global_scan.log"
+json = true
 ```
 
-## 📊 Output Format
+## 📊 Logs
 
-The `pulse_results.log` file will contain a clean, newline-delimited list of active IP addresses, perfect for piping into other tools:
-```text
-104.26.10.228
-172.67.74.152
-8.8.8.8
-```
-
-## 📜 Disclaimer
-
-This tool is intended for educational purposes and authorized network security testing only. Use it responsibly and always ensure you have permission before scanning any network.
+Results are saved to `pulse_results.log` by default.
+**CSV Format (Default):** `Timestamp,IP,Port,Latency(ms)`
+**JSON Format:** `{"timestamp":"...","ip":"...","port":80,"latency_ms":15}`
 
 ---
-**PulseNet** - *The fastest way to discover the pulse of the internet.*
+*Developed with a focus on performance and ethical security testing.*
